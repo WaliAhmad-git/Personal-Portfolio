@@ -71,7 +71,7 @@ export default function Hero() {
               style={{ background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }}
               aria-hidden="true"
             />
-            {PERSONAL.status ? `${PERSONAL.status.toLowerCase()} — ` : ''}{PERSONAL.location.toLowerCase()}
+          {PERSONAL.status ? `${String(PERSONAL.status).toLowerCase()} — ` : ''}{String(PERSONAL.location).toLowerCase()}
           </p>
 
           <h1
