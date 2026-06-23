@@ -1,0 +1,9 @@
+# Security Policy
+# ──────────────────────────────────────────────
+# If you find a security vulnerability in this site,
+# please report it responsibly. Do not publicly disclose
+# until I've had a chance to fix it.
+
+Contact: mailto:ahmadhotakwali@gmail.com
+Preferred-Languages: en
+Expires: 2027-01-01T00:00:00.000Z
