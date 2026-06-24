@@ -230,10 +230,10 @@ export default function TechStack() {
        whenever the cursor is over the canvas. Remove them — drag-to-play
        still works via mousedown/mousemove/mouseup, only scroll-blocking
        wheel capture is removed. */
-    const mouseEl = mouse.element
-    mouseEl.removeEventListener('mousewheel', mouse.mousewheel)
-    mouseEl.removeEventListener('DOMMouseScroll', mouse.mousewheel)
-    mouseEl.removeEventListener('wheel', mouse.mousewheel)
+    const mouseEl = mouse.element as HTMLElement
+    mouseEl.removeEventListener('mousewheel', mouse.mousewheel as unknown as EventListener)
+    mouseEl.removeEventListener('DOMMouseScroll', mouse.mousewheel as unknown as EventListener)
+    mouseEl.removeEventListener('wheel', mouse.mousewheel as unknown as EventListener)
 
     setupAfterRender(Matter, render, engine, ballRadius)
 
