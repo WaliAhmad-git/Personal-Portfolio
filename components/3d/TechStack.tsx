@@ -231,9 +231,6 @@ export default function TechStack() {
        still works via mousedown/mousemove/mouseup, only scroll-blocking
        wheel capture is removed. */
     const mouseEl = mouse.element as HTMLElement
-    mouseEl.removeEventListener('mousewheel', mouse.mousewheel as unknown as EventListener)
-    mouseEl.removeEventListener('DOMMouseScroll', mouse.mousewheel as unknown as EventListener)
-    mouseEl.removeEventListener('wheel', mouse.mousewheel as unknown as EventListener)
 
     setupAfterRender(Matter, render, engine, ballRadius)
 
