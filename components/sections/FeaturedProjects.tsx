@@ -53,7 +53,7 @@ export default function FeaturedProjects() {
         variants={headerVariants}
         className="section-label"
       >
-        <span className="idx">03</span>
+        <span className="idx">04</span>
         <h2>Selected Work</h2>
         <span className="rule" />
       </motion.div>

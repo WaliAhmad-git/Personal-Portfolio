@@ -14,28 +14,12 @@ import type { TechItem } from '@/lib/data'
 
 const CANVAS_HEIGHT_DESKTOP = 500
 const CANVAS_HEIGHT_MOBILE  = 400
-const BALL_RADIUS_DESKTOP   = 44
-const BALL_RADIUS_MOBILE    = 32
+const BALL_RADIUS_DESKTOP   = 54
+const BALL_RADIUS_MOBILE    = 40
 const DROP_STAGGER_MS       = 140
 const WALL_THICKNESS        = 60
 
-const LABEL_MAP: Record<string, string> = {
-  Python:         'PY',
-  JavaScript:     'JS',
-  TypeScript:     'TS',
-  'C++':          'C++',
-  FastAPI:        'API',
-  'Next.js':      'NXT',
-  React:          'RCT',
-  PostgreSQL:     'PG',
-  Linux:          'LNX',
-  Git:            'GIT',
-  Docker:         'DKR',
-  'Kali Linux':   'KLI',
-  'Burp Suite':   'BRP',
-  'Scikit-learn': 'SKL',
-  Pandas:         'PND',
-}
+const CATEGORY_ORDER: TechItem['category'][] = ['language', 'framework', 'database', 'tool', 'security']
 
 const headerVariants = {
   hidden:  { opacity: 0, y: 32 },
@@ -106,7 +90,16 @@ export default function TechStack() {
 
   const dropBall = useCallback(
     (Matter: typeof import('matter-js'), world: Matter.World, item: TechItem, canvasWidth: number, radius: number) => {
-      const x = radius * 1.5 + Math.random() * (canvasWidth - radius * 3)
+      /* Cluster balls by category into horizontal bands so similar
+         technologies group together on one side instead of scattering
+         fully at random across the whole width. */
+      const usableWidth = canvasWidth - radius * 3
+      const bandCount    = CATEGORY_ORDER.length
+      const bandWidth     = usableWidth / bandCount
+      const bandIndex     = Math.max(0, CATEGORY_ORDER.indexOf(item.category))
+      const bandStart      = radius * 1.5 + bandIndex * bandWidth
+
+      const x = bandStart + Math.random() * bandWidth
       const y = -radius - Math.random() * 60
 
       const body = Matter.Bodies.circle(x, y, radius, {
@@ -137,7 +130,6 @@ export default function TechStack() {
         bodies.forEach((body) => {
           if (body.isStatic) return
           const { x, y } = body.position
-          const label = LABEL_MAP[body.label] ?? body.label.slice(0, 3).toUpperCase()
 
           ctx.save()
           ctx.beginPath()
@@ -155,7 +147,6 @@ export default function TechStack() {
           ctx.restore()
 
           ctx.save()
-          ctx.font = `bold ${Math.round(radius * 0.32)}px "JetBrains Mono", monospace`
           ctx.fillStyle = isLightColor(body.render.fillStyle as string)
             ? 'rgba(0,0,0,0.85)'
             : 'rgba(255,255,255,0.92)'
@@ -163,7 +154,7 @@ export default function TechStack() {
           ctx.textBaseline = 'middle'
           ctx.shadowColor  = 'rgba(0,0,0,0.5)'
           ctx.shadowBlur   = 3
-          ctx.fillText(label, x, y)
+          drawFittedLabel(ctx, body.label, x, y, radius)
           ctx.restore()
         })
       })
@@ -233,6 +224,16 @@ export default function TechStack() {
     Matter.World.add(engine.world, mouseConstraint as unknown as Matter.Body)
     mouseRef.current = mouseConstraint
     render.mouse = mouse
+
+    /* Matter.js attaches wheel/mousewheel listeners to the canvas element
+       that call preventDefault(), which blocks normal page scrolling
+       whenever the cursor is over the canvas. Remove them — drag-to-play
+       still works via mousedown/mousemove/mouseup, only scroll-blocking
+       wheel capture is removed. */
+    const mouseEl = mouse.element
+    mouseEl.removeEventListener('mousewheel', mouse.mousewheel)
+    mouseEl.removeEventListener('DOMMouseScroll', mouse.mousewheel)
+    mouseEl.removeEventListener('wheel', mouse.mousewheel)
 
     setupAfterRender(Matter, render, engine, ballRadius)
 
@@ -371,7 +372,7 @@ export default function TechStack() {
           viewport={{ once: true, margin: '-80px' }}
           className="section-label"
         >
-          <span className="idx">06</span>
+          <span className="idx">03</span>
           <h2 style={{ fontSize: '1.4rem' }}>Tech Stack</h2>
           <span className="rule" />
         </motion.div>
@@ -516,6 +517,55 @@ function isLightColor(hex: string): boolean {
   const g = parseInt(clean.slice(2, 4), 16)
   const b = parseInt(clean.slice(4, 6), 16)
   return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.55
+}
+
+/* Renders the full tech name inside a ball of given radius. Shrinks the
+   font until it fits on one line; if it still doesn't fit at the minimum
+   readable size, splits the name into two lines at a space/hyphen and
+   fits each line independently. */
+function drawFittedLabel(
+  ctx: CanvasRenderingContext2D,
+  label: string,
+  x: number,
+  y: number,
+  radius: number
+) {
+  const maxWidth  = radius * 1.7
+  const maxFont   = radius * 0.34
+  const minFont   = radius * 0.16
+
+  const fitFontSize = (text: string) => {
+    let size = maxFont
+    ctx.font = `bold ${size}px "JetBrains Mono", monospace`
+    while (ctx.measureText(text).width > maxWidth && size > minFont) {
+      size -= 1
+      ctx.font = `bold ${size}px "JetBrains Mono", monospace`
+    }
+    return size
+  }
+
+  const singleLineSize = fitFontSize(label)
+  ctx.font = `bold ${singleLineSize}px "JetBrains Mono", monospace`
+
+  if (ctx.measureText(label).width <= maxWidth) {
+    ctx.fillText(label, x, y)
+    return
+  }
+
+  /* Doesn't fit on one line even at minimum size — split into 2 lines */
+  const splitPoint = label.indexOf('-') > -1 ? label.indexOf('-') + 1 : label.indexOf(' ')
+  const line1 = splitPoint > -1 ? label.slice(0, splitPoint).trim() : label
+  const line2 = splitPoint > -1 ? label.slice(splitPoint).trim() : ''
+
+  if (!line2) {
+    ctx.fillText(label, x, y)
+    return
+  }
+
+  const lineFont = Math.max(fitFontSize(line1), fitFontSize(line2), minFont)
+  ctx.font = `bold ${Math.min(lineFont, maxFont)}px "JetBrains Mono", monospace`
+  ctx.fillText(line1, x, y - lineFont * 0.55)
+  ctx.fillText(line2, x, y + lineFont * 0.55)
 }
 
 function ResetIcon() {

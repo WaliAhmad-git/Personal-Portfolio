@@ -252,7 +252,7 @@ export const PROJECTS: Project[] = [
       'Programmed in Arduino IDE. Converts typed characters into the correct solenoid activation patterns to form Braille cells. ' +
       'First experience bridging software logic with physical hardware — built for visually impaired users, not as a toy project.',
     stack: ['Arduino', 'Arduino IDE', 'C++', 'Solenoids', 'Digital Logic'],
-    githubUrl: 'https://github.com/WaliAhmad-git',
+    githubUrl: 'https://github.com/WaliAhmad-git/Text-to-Braille-Converter',
     imagePath: '',
     featured: false,
     year: '2024',
@@ -307,7 +307,7 @@ export const PROJECTS: Project[] = [
       'The business operated, made sales, and was sold in early 2026. ' +
       'Not a tutorial, not a side project — an actual business with customers and revenue.',
     stack: ['Next.js', 'Tailwind CSS', 'FastAPI', 'PostgreSQL'],
-    githubUrl: 'https://github.com/WaliAhmad-git',
+    githubUrl: 'https://github.com/WaliAhmad-git/Amirani',
     imagePath: '',
     featured: true,
     year: '2025',
@@ -324,7 +324,26 @@ export const PROJECTS: Project[] = [
       'Built with a FastAPI backend, PostgreSQL for listing storage, and a Vanilla JS frontend with real-time filtering. ' +
       'Independently scoped and developed — not a team or academic project.',
     stack: ['Python', 'FastAPI', 'PostgreSQL', 'HuggingFace', 'Leaflet.js', 'Vanilla JS'],
-    githubUrl: 'https://github.com/WaliAhmad-git',
+    githubUrl: 'https://github.com/WaliAhmad-git/Real-Estate-AI-Search-Tool',
+    imagePath: '',
+    featured: true,
+    year: '2025',
+    category: 'ml',
+  },
+  {
+    id: 'seizure-ml',
+    title: 'Seizure Prediction ML Model',
+    description: 'EEG-based seizure prediction research comparing preprocessing pipelines, regularization strategies, and class-imbalance handling across three real EEG datasets.',
+    longDescription:
+      'A research-driven machine learning project investigating how preprocessing order, model complexity, and regularization affect generalisation in seizure prediction. ' +
+      'Three real EEG datasets were used — the UCI Epileptic Seizure Recognition set, the EEG Brainwave Emotions set, and the UCI EEG Eye State set — ' +
+      'covering a range of class imbalance levels and feature dimensionalities. Two preprocessing pipelines were designed and benchmarked against each other: ' +
+      'one normalising before feature selection, the other extracting features (log-transform + PCA) before scaling. Logistic regression served as an interpretable baseline, ' +
+      'with L1, L2, and Elastic Net regularisation compared across all three datasets, and SMOTE, undersampling, and class weighting evaluated for handling imbalance. ' +
+      'All datasets were split with stratified 60/20/20 sampling to avoid data leakage. Elastic Net combined with class weighting produced the strongest generalisation ' +
+      'on the clinically imbalanced seizure dataset, and results were written up in a full IEEE-format research report.',
+    stack: ['Python', 'Scikit-learn', 'Pandas', 'SMOTE', 'Elastic Net', 'Logistic Regression'],
+    githubUrl: 'https://github.com/WaliAhmad-git/Seizure-prediction-model',
     imagePath: '',
     featured: true,
     year: '2025',
@@ -341,7 +360,7 @@ export const PROJECTS: Project[] = [
       'Before injecting into a new session, a preview panel shows the compressed summary with token count and allows editing. ' +
       'Designed as a personal productivity tool for developers who work in long, context-heavy AI sessions daily.',
     stack: ['Chrome Extension API', 'JavaScript', 'Gemini API', 'HTML/CSS'],
-    githubUrl: 'https://github.com/WaliAhmad-git',
+    githubUrl: 'https://github.com/WaliAhmad-git/Z-Context-Switcher',
     imagePath: '',
     featured: true,
     year: '2026',
@@ -358,7 +377,7 @@ export const PROJECTS: Project[] = [
       'a custom magnetic cursor, and a contact form with Formspree and server-side rate limiting via Next.js proxy middleware. ' +
       'Server components for SEO metadata, client components for interactivity — clean boundary separation throughout.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Matter.js', 'Formspree'],
-    githubUrl: 'https://github.com/WaliAhmad-git/Developer-Portfolio',
+    githubUrl: 'https://github.com/WaliAhmad-git/Personal-Portfolio',
     imagePath: '',
     featured: false,
     year: '2026',

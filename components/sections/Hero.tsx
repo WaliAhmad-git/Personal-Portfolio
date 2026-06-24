@@ -25,7 +25,7 @@ export default function Hero() {
 
   useEffect(() => {
     if (!booted) return
-    const timers = [0, 1, 2].map((i) =>
+    const timers = [0, 1].map((i) =>
       setTimeout(() => setLinesShown((n) => Math.max(n, i + 1)), 200 + i * 150)
     )
     const t1 = setTimeout(() => setSubShown(true), 750)
@@ -95,15 +95,15 @@ export default function Hero() {
         <div className="flex flex-col">
           <h2 className="kinetic text-[clamp(2.4rem,7.5vw,6.2rem)]">
             <span className="line">
-              <span className={linesShown >= 1 ? 'show' : ''}>Code that</span>
+              <span className={linesShown >= 1 ? 'show' : ''}>Code that survives</span>
             </span>
             <span className="line">
-              <span className={linesShown >= 2 ? 'show' : ''}>
-                survives <span className="accent">contact</span>
+              <span
+                className={linesShown >= 2 ? 'show' : ''}
+                style={{ fontSize: '1.45em', display: 'inline-block' }}
+              >
+                with reality.
               </span>
-            </span>
-            <span className="line">
-              <span className={linesShown >= 3 ? 'show' : ''}>with reality.</span>
             </span>
           </h2>
 

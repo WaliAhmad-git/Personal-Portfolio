@@ -22,12 +22,6 @@ const CATEGORIES = [
 
 type CategoryKey = (typeof CATEGORIES)[number]['key']
 
-const LEVEL_STYLE: Record<SkillDetail['level'], { color: string; bg: string; border: string }> = {
-  Proficient:  { color: '#4dd9e8', bg: 'rgba(77,217,232,0.08)',  border: 'rgba(77,217,232,0.3)'  },
-  Comfortable: { color: '#ffb13d', bg: 'rgba(255,177,61,0.08)',  border: 'rgba(255,177,61,0.3)'  },
-  Learning:    { color: '#bc8cff', bg: 'rgba(188,140,255,0.08)', border: 'rgba(188,140,255,0.3)' },
-}
-
 const CAT_COLOR: Record<string, string> = {
   Language:  'var(--cyan)',
   Framework: 'var(--amber)',
@@ -246,37 +240,11 @@ export default function SkillsPageClient() {
         </AnimatePresence>
       </section>
 
-      {/* ── Legend ────────────────────────────────────────────── */}
-      <div
-        className="px-[7vw] py-6 border-t"
-        style={{ borderColor: 'var(--line)', background: 'var(--bg-soft)' }}
-      >
-        <div className="flex flex-wrap items-center gap-6">
-          <span className="font-mono text-[0.65rem] tracking-widest uppercase" style={{ color: 'var(--dim-2)' }}>
-            Legend
-          </span>
-          {(Object.keys(LEVEL_STYLE) as SkillDetail['level'][]).map((level) => {
-            const s = LEVEL_STYLE[level]
-            return (
-              <span
-                key={level}
-                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-mono text-[0.62rem] tracking-widest border"
-                style={{ color: s.color, background: s.bg, borderColor: s.border }}
-              >
-                {level}
-              </span>
-            )
-          })}
-        </div>
-      </div>
-
     </main>
   )
 }
 
 function SkillCard({ skill }: { skill: SkillDetail }) {
-  const lvl = LEVEL_STYLE[skill.level]
-
   return (
     <motion.div
       variants={cardVariants}
@@ -303,12 +271,6 @@ function SkillCard({ skill }: { skill: SkillDetail }) {
             {skill.name}
           </h3>
         </div>
-        <span
-          className="shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[0.6rem] tracking-widest border"
-          style={{ color: lvl.color, background: lvl.bg, borderColor: lvl.border }}
-        >
-          {skill.level}
-        </span>
       </div>
 
       <p className="text-sm leading-relaxed" style={{ color: 'var(--dim)' }}>

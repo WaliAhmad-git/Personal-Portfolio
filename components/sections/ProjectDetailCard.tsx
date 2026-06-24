@@ -50,6 +50,26 @@ const TERMINAL_NOTES: Record<string, string[]> = {
     '→ Framer Motion scroll animations + custom magnetic cursor',
     '→ Server/client component boundary — metadata SEO + interactivity',
   ],
+  'text-to-braille': [
+    '→ 6-pin solenoid array mapped to Braille dot positions',
+    '→ Serial-driven character input → binary dot pattern lookup',
+    '→ First hardware project — software logic meets physical actuators',
+  ],
+  'real-estate-ai': [
+    '→ Natural language query → HuggingFace model → filtered listings',
+    '→ Leaflet.js interactive map with real-time result plotting',
+    '→ FastAPI + PostgreSQL backend, independently scoped and built',
+  ],
+  'z-context-switcher': [
+    '→ 75% token-threshold detection triggers proactive warning banner',
+    '→ Offline compression algorithm + optional Gemini API fidelity path',
+    '→ Preview-before-inject flow for safe context handoff',
+  ],
+  'seizure-ml': [
+    '→ 3 EEG datasets, 2 preprocessing pipelines, stratified 60/20/20 split',
+    '→ L1 vs L2 vs Elastic Net regularisation compared on PR-AUC',
+    '→ SMOTE, undersampling, class weighting tested for imbalance handling',
+  ],
 }
 
 interface Props {
@@ -183,6 +203,10 @@ function ProjectIcon({ id, padNum, year }: { id: string; padNum: string; year: s
         {id === 'virtual-avatar' && <AvatarIcon />}
         {id === 'amirani-store' && <StoreIcon />}
         {id === 'portfolio'     && <PortfolioIcon />}
+        {id === 'text-to-braille'     && <BrailleIcon />}
+        {id === 'real-estate-ai'     && <RealEstateIcon />}
+        {id === 'z-context-switcher' && <ContextSwitcherIcon />}
+        {id === 'seizure-ml'          && <SeizureIcon />}
       </div>
 
       {/* Year */}
@@ -349,6 +373,120 @@ function PortfolioIcon() {
         <circle key={i} cx={28 + i * 14} cy={116} r={3 + (i % 2)} fill="#4dd9e8" opacity={0.2 + i * 0.15} />
       ))}
       <text x="80" y="148" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#4dd9e8" opacity="0.5" letterSpacing="2">NEXT.JS 16 · TS · FM</text>
+    </svg>
+  )
+}
+
+/* Text-to-Braille Converter — Braille cell dot grid icon */
+function BrailleIcon() {
+  return (
+    <svg viewBox="0 0 160 160" width="140" height="140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Outer cell boundary */}
+      <rect x="40" y="20" width="80" height="116" rx="8" stroke="#4dd9e8" strokeWidth="1.5" fill="rgba(77,217,232,0.03)" opacity="0.4" />
+      {/* 6-dot Braille cell — pattern for letter 'A' (100000) raised top-left */}
+      {[
+        { cx: 60, cy: 42, raised: true },
+        { cx: 100, cy: 42, raised: false },
+        { cx: 60, cy: 78, raised: false },
+        { cx: 100, cy: 78, raised: false },
+        { cx: 60, cy: 114, raised: false },
+        { cx: 100, cy: 114, raised: false },
+      ].map((dot, i) => (
+        <g key={i}>
+          <circle cx={dot.cx} cy={dot.cy} r="14" stroke="#4dd9e8" strokeWidth="1.5" fill={dot.raised ? 'rgba(77,217,232,0.25)' : 'rgba(77,217,232,0.04)'} opacity={dot.raised ? 1 : 0.35} />
+          {dot.raised && <circle cx={dot.cx} cy={dot.cy} r="6" fill="#4dd9e8" opacity="0.8" />}
+        </g>
+      ))}
+      {/* Pin/solenoid hint lines below cell */}
+      <line x1="60" y1="128" x2="60" y2="138" stroke="#4a4a52" strokeWidth="2" strokeLinecap="round" />
+      <line x1="100" y1="128" x2="100" y2="138" stroke="#4a4a52" strokeWidth="2" strokeLinecap="round" />
+      {/* Label */}
+      <text x="80" y="152" textAnchor="middle" fontFamily="monospace" fontSize="9" fill="#4dd9e8" opacity="0.6" letterSpacing="2">BRAILLE · A</text>
+    </svg>
+  )
+}
+
+/* Real Estate AI Search — map pin + house icon */
+function RealEstateIcon() {
+  return (
+    <svg viewBox="0 0 160 160" width="140" height="140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Map base grid */}
+      <rect x="18" y="18" width="124" height="100" rx="6" stroke="#bc8cff" strokeWidth="1.5" fill="rgba(188,140,255,0.03)" />
+      <line x1="18" y1="48" x2="142" y2="48" stroke="#23232b" strokeWidth="1" opacity="0.5" />
+      <line x1="18" y1="78" x2="142" y2="78" stroke="#23232b" strokeWidth="1" opacity="0.5" />
+      <line x1="58" y1="18" x2="58" y2="118" stroke="#23232b" strokeWidth="1" opacity="0.4" />
+      <line x1="102" y1="18" x2="102" y2="118" stroke="#23232b" strokeWidth="1" opacity="0.4" />
+      {/* House shape inside map pin */}
+      <path d="M 80 30 L 110 54 L 110 92 L 50 92 L 50 54 Z" fill="rgba(188,140,255,0.1)" stroke="#bc8cff" strokeWidth="2" strokeLinejoin="round" />
+      <rect x="68" y="68" width="14" height="24" fill="rgba(188,140,255,0.2)" stroke="#bc8cff" strokeWidth="1.5" />
+      <rect x="88" y="68" width="14" height="14" fill="rgba(77,217,232,0.15)" stroke="#4dd9e8" strokeWidth="1.5" />
+      {/* Map pin marker below */}
+      <path d="M 80 100 C 80 100 96 116 96 128 C 96 137 88.8 144 80 144 C 71.2 144 64 137 64 128 C 64 116 80 100 80 100 Z" fill="rgba(255,177,61,0.15)" stroke="#ffb13d" strokeWidth="2" />
+      <circle cx="80" cy="124" r="6" fill="#ffb13d" opacity="0.8" />
+      {/* Search magnifier accent top-right */}
+      <circle cx="124" cy="32" r="8" stroke="#4dd9e8" strokeWidth="2" fill="none" />
+      <line x1="130" y1="38" x2="136" y2="44" stroke="#4dd9e8" strokeWidth="2" strokeLinecap="round" />
+      <text x="80" y="156" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#bc8cff" opacity="0.6" letterSpacing="2">REAL ESTATE AI</text>
+    </svg>
+  )
+}
+
+/* Z Context Switcher — browser tab + swap arrows icon */
+function ContextSwitcherIcon() {
+  return (
+    <svg viewBox="0 0 160 160" width="140" height="140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Two browser tab windows representing context switch */}
+      <rect x="14" y="34" width="60" height="68" rx="5" stroke="#4dd9e8" strokeWidth="2" fill="rgba(77,217,232,0.05)" />
+      <rect x="14" y="34" width="60" height="14" rx="5" fill="rgba(77,217,232,0.1)" stroke="#4dd9e8" strokeWidth="2" />
+      <line x1="22" y1="62" x2="58" y2="62" stroke="#23232b" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="22" y1="72" x2="50" y2="72" stroke="#23232b" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="22" y1="82" x2="62" y2="82" stroke="#23232b" strokeWidth="1.5" strokeLinecap="round" />
+
+      <rect x="86" y="58" width="60" height="68" rx="5" stroke="#bc8cff" strokeWidth="2" fill="rgba(188,140,255,0.05)" />
+      <rect x="86" y="58" width="60" height="14" rx="5" fill="rgba(188,140,255,0.1)" stroke="#bc8cff" strokeWidth="2" />
+      <line x1="94" y1="86" x2="130" y2="86" stroke="#23232b" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="94" y1="96" x2="122" y2="96" stroke="#23232b" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="94" y1="106" x2="134" y2="106" stroke="#23232b" strokeWidth="1.5" strokeLinecap="round" />
+
+      {/* Swap arrows between the two tabs */}
+      <path d="M 74 50 L 90 50" stroke="#ffb13d" strokeWidth="2" strokeLinecap="round" markerEnd="url(#arrowhead)" />
+      <path d="M 78 44 L 90 50 L 78 56" stroke="#ffb13d" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M 86 112 L 70 112" stroke="#ffb13d" strokeWidth="2" strokeLinecap="round" />
+      <path d="M 82 106 L 70 112 L 82 118" stroke="#ffb13d" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+
+      <text x="80" y="148" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#4dd9e8" opacity="0.6" letterSpacing="2">Z CONTEXT SWITCHER</text>
+    </svg>
+  )
+}
+
+/* Seizure Prediction ML — EEG waveform + pulse icon */
+function SeizureIcon() {
+  return (
+    <svg viewBox="0 0 160 160" width="140" height="140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Monitor frame */}
+      <rect x="16" y="34" width="128" height="70" rx="6" stroke="#bc8cff" strokeWidth="2" fill="rgba(188,140,255,0.04)" />
+      {/* Grid lines inside monitor */}
+      {[0,1,2,3].map(i => (
+        <line key={i} x1={16 + (i+1) * 25.6} y1="34" x2={16 + (i+1) * 25.6} y2="104" stroke="#23232b" strokeWidth="1" opacity="0.3" />
+      ))}
+      {/* EEG waveform — irregular spiking pattern */}
+      <path
+        d="M 22 70 L 36 70 L 42 50 L 48 88 L 54 64 L 60 70 L 70 70 L 76 36 L 82 100 L 88 60 L 94 70 L 104 70 L 110 54 L 116 84 L 122 70 L 138 70"
+        stroke="#bc8cff"
+        strokeWidth="2"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* Pulse dot marker on a spike */}
+      <circle cx="82" cy="100" r="4" fill="#ff7b72" opacity="0.9" />
+      <circle cx="82" cy="100" r="9" stroke="#ff7b72" strokeWidth="1.5" fill="none" opacity="0.4" />
+      {/* Classification tag */}
+      <rect x="100" y="112" width="44" height="16" rx="3" fill="rgba(255,123,114,0.1)" stroke="#ff7b72" strokeWidth="1" />
+      <text x="122" y="123.5" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#ff7b72">SEIZURE</text>
+      {/* Stat readout */}
+      <text x="16" y="123" fontFamily="monospace" fontSize="8" fill="#bc8cff" opacity="0.7">PR-AUC 0.50</text>
+      <text x="80" y="148" textAnchor="middle" fontFamily="monospace" fontSize="8" fill="#bc8cff" opacity="0.6" letterSpacing="2">EEG · SCIKIT-LEARN</text>
     </svg>
   )
 }
