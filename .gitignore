@@ -24,3 +24,10 @@ next-env.d.ts
 
 # ── Vercel ──────────────────────────────────────────────────
 .vercel
+# Local audit files
+Portfolio_Security_Audit_Report.pdf
+Portfolio_Security_Audit_ZCS_Style.pdf
+Portfolio_Security_Audit_Clean.pdf
+env.local.example.fixed
+portfolio.zip
+zcs-export.md
